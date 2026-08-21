@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 
 import { supabase } from "@/integrations/supabase/client";
-import gifAsset from "@/assets/pucca-loop.gif.asset.json";
+import puccaLoop from "@/assets/pucca-loop.mp4";
 import yayImg from "@/assets/pg-yay.jpg";
 
 const NO_PHRASES = [
@@ -12,10 +12,10 @@ const NO_PHRASES = [
   "¡Piénsalo bien!",
   "Mira el otro botón... 💖",
   "¡Por favor! 🥺",
-  "Última oportunidad 🥹",
+  "Última oportunidad 💔",
 ];
 
-const HEARTS = ["❤️", "💖", "💕", "💗", "🩷", "💞"];
+const HEARTS = ["❤️", "💖", "💕", "💗", "💓", "💞"];
 
 function FloatingHearts() {
   const hearts = useMemo(
@@ -126,6 +126,8 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
   const noLabel = NO_PHRASES[noCount % NO_PHRASES.length];
   const yesFontSize = Math.min(1.4 + noCount * 0.9, 9);
   const yesFullScreen = noCount >= 2;
+  // El "No" se va encogiendo mientras el "¡Sí!" crece
+  const noScale = Math.max(1 - noCount * 0.13, 0.32);
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
@@ -138,9 +140,14 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
         }`}
       >
         <div className="animate-float-soft mx-auto mb-6 w-full max-w-[16rem] overflow-hidden rounded-3xl border-2 border-foreground/10 bg-black">
-          <img
-            src={gifAsset.url}
-            alt="Animación de Pucca y Garu bajo las estrellas"
+          <video
+            src={puccaLoop}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            aria-label="Animación de Pucca bajo las estrellas"
             className="h-full w-full object-cover"
           />
         </div>
@@ -203,12 +210,14 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
               ? {
                   left: `${noPos.left}vw`,
                   top: `${noPos.top}vh`,
+                  transform: `scale(${noScale})`,
+                  transformOrigin: "center",
                 }
               : {
                   left: "50%",
                   bottom: "22vh",
                   top: "auto",
-                  transform: "translateX(-50%)",
+                  transform: `translateX(-50%) scale(${noScale})`,
                 }
           }
         >
