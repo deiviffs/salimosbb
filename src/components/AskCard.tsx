@@ -2,8 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 
 import { supabase } from "@/integrations/supabase/client";
-import loopAsset from "@/assets/pg-loop.mp4.asset.json";
-import sadImg from "@/assets/pg-sad.jpg";
+import gifAsset from "@/assets/pucca-loop.gif.asset.json";
 import yayImg from "@/assets/pg-yay.jpg";
 
 const NO_PHRASES = [
