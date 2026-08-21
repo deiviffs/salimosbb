@@ -3,7 +3,7 @@ import confetti from "canvas-confetti";
 
 import { supabase } from "@/integrations/supabase/client";
 import puccaLoop from "@/assets/pucca-loop.mp4";
-import yayImg from "@/assets/pg-yay.jpg";
+import yayImg from "@/assets/pg-hug.jpg";
 
 const NO_PHRASES = [
   "No",
@@ -127,7 +127,7 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
   const yesFontSize = Math.min(1.4 + noCount * 0.9, 9);
   const yesFullScreen = noCount >= 2;
   // El "No" se va encogiendo mientras el "¡Sí!" crece
-  const noScale = Math.max(1 - noCount * 0.13, 0.32);
+  const noScale = Math.max(1 - noCount * 0.16, 0.18);
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
@@ -230,7 +230,7 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
           <div className="animate-float-soft mx-auto mb-6 w-full max-w-[17rem] overflow-hidden rounded-3xl border-2 border-foreground/10 bg-white">
             <img
               src={yayImg}
-              alt="Pareja de dibujos celebrando con globos y confeti"
+              alt="Pucca abrazando a Garu rodeados de corazones"
               width={1024}
               height={1024}
               loading="lazy"
