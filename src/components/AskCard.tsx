@@ -124,9 +124,8 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
   }, [note, noCount, persist]);
 
   const noLabel = NO_PHRASES[noCount % NO_PHRASES.length];
-  const yesFontSize = Math.min(1.2 + noCount * 0.85, 9);
-  const yesPadding = Math.min(0.9 + noCount * 0.8, 8);
-  const yesFullScreen = noCount >= 3;
+  const yesFontSize = Math.min(1.4 + noCount * 0.9, 9);
+  const yesFullScreen = noCount >= 2;
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
@@ -138,25 +137,12 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
           accepted ? "pointer-events-none scale-90 opacity-0 blur-sm" : "scale-100 opacity-100"
         }`}
       >
-        <div className="animate-float-soft mx-auto mb-6 w-full max-w-[16rem] overflow-hidden rounded-3xl border-2 border-foreground/10 bg-white">
-          {noCount > 0 ? (
-            <img
-              src={sadImg}
-              alt="Pareja de dibujos: ella llorando y él de brazos cruzados"
-              width={1024}
-              height={1024}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <video
-              src={loopAsset.url}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="h-full w-full object-cover"
-            />
-          )}
+        <div className="animate-float-soft mx-auto mb-6 w-full max-w-[16rem] overflow-hidden rounded-3xl border-2 border-foreground/10 bg-black">
+          <img
+            src={gifAsset.url}
+            alt="Animación de Pucca y Garu bajo las estrellas"
+            className="h-full w-full object-cover"
+          />
         </div>
 
         <h1 className="font-display text-3xl leading-tight font-bold text-primary sm:text-4xl">
@@ -173,29 +159,29 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
             <button
               type="button"
               onClick={handleYes}
-              className="btn-yes animate-pulse-soft w-full rounded-3xl font-display font-bold transition-all duration-500 ease-out hover:brightness-110 active:scale-[0.98]"
-              style={{ fontSize: `${yesFontSize}rem`, paddingBlock: `${yesPadding}rem` }}
+              className="btn-yes w-full rounded-3xl py-5 font-display font-bold transition-all duration-500 ease-out hover:brightness-110 active:scale-[0.98]"
+              style={{ fontSize: `${yesFontSize}rem` }}
             >
               ¡Sí!
             </button>
           )}
-          {yesFullScreen && <div className="h-10" aria-hidden="true" />}
-          <div className="h-12" aria-hidden="true" />
+          {/* espacio reservado para el botón "No" que vive centrado en la tarjeta */}
+          <div className="h-14" aria-hidden="true" />
         </div>
       </section>
 
-      {/* Botón Sí gigante: crece hasta abarcar toda la pantalla */}
+      {/* Botón Sí gigante: crece desde el centro hasta abarcar toda la pantalla */}
       {!accepted && yesFullScreen && (
         <button
           type="button"
           onClick={handleYes}
-          className="btn-yes animate-pulse-soft fixed z-30 rounded-[3rem] font-display font-bold transition-all duration-500 ease-out"
+          className="btn-yes fixed z-30 rounded-[3rem] font-display font-bold transition-all duration-500 ease-out"
           style={{
             left: "50%",
             top: "50%",
             transform: "translate(-50%, -50%)",
-            width: `${Math.min(40 + noCount * 12, 100)}vw`,
-            height: `${Math.min(22 + noCount * 12, 100)}vh`,
+            width: `${Math.min(46 + (noCount - 2) * 16, 100)}vw`,
+            height: `${Math.min(30 + (noCount - 2) * 16, 100)}vh`,
             fontSize: `${yesFontSize}rem`,
           }}
         >
@@ -203,25 +189,26 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
         </button>
       )}
 
-      {/* Botón No: se mueve por la pantalla y se monta encima */}
+      {/* Botón No: empieza centrado en la tarjeta y luego se mueve por la pantalla */}
       {!accepted && (
         <button
           type="button"
-          onClick={handleNo}
-          className="fixed z-40 rounded-2xl bg-secondary px-5 py-2 font-semibold text-secondary-foreground shadow-lg transition-all duration-300 ease-out active:scale-95"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            handleNo();
+          }}
+          className="fixed z-50 touch-manipulation rounded-2xl border-2 border-primary/40 bg-card px-6 py-3 font-display text-base font-bold text-primary shadow-xl transition-all duration-300 ease-out active:scale-95"
           style={
             noPos
               ? {
                   left: `${noPos.left}vw`,
                   top: `${noPos.top}vh`,
-                  fontSize: `${Math.max(0.62, 0.95 - noCount * 0.04)}rem`,
                 }
               : {
                   left: "50%",
-                  bottom: "3.5rem",
+                  bottom: "22vh",
                   top: "auto",
                   transform: "translateX(-50%)",
-                  fontSize: "0.95rem",
                 }
           }
         >
