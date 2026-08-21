@@ -106,8 +106,8 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
     const next = noCount + 1;
     setNoCount(next);
     setNoPos({
-      left: 6 + Math.random() * 74,
-      top: 12 + Math.random() * 70,
+      left: 8 + Math.random() * 62,
+      top: 14 + Math.random() * 68,
     });
     void persist({ no_clicks: next });
   }, [noCount, persist]);
@@ -231,7 +231,7 @@ export function AskCard({ invitationId }: { invitationId?: string | null }) {
           <h2 className="font-display text-3xl leading-tight font-bold text-primary sm:text-4xl">
             ¡Sabía que dirías que sí! 🥰
           </h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="font-display mt-4 text-lg leading-snug font-bold text-accent-foreground sm:text-xl">
             Dijiste "No" {noCount} {noCount === 1 ? "vez" : "veces"}... pero el corazón ganó 💖
           </p>
 
